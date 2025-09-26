@@ -6,6 +6,7 @@ package graphtutorial;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.function.Consumer;
 
@@ -75,7 +76,7 @@ public class Graph {
         context.addScopes(graphUserScopes);
 
         final AccessToken token = _deviceCodeCredential.getToken(context).block();
-        return token.getToken();
+        return Objects.requireNonNull(token).getToken();
     }
     // </GetUserTokenSnippet>
 

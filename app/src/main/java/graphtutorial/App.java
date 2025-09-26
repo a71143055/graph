@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -135,15 +136,15 @@ public class App {
             // Output each message's details
             for (Message message: messages.getCurrentPage()) {
                 System.out.println("Message: " + message.subject);
-                System.out.println("  From: " + message.from.emailAddress.name);
-                System.out.println("  Status: " + (message.isRead ? "Read" : "Unread"));
-                System.out.println("  Received: " + message.receivedDateTime
+                System.out.println("  From: " + Objects.requireNonNull(Objects.requireNonNull(message.from).emailAddress).name);
+                System.out.println("  Status: " + (Boolean.TRUE.equals(message.isRead) ? "Read" : "Unread"));
+                System.out.println("  Received: " + Objects.requireNonNull(message.receivedDateTime)
                     // Values are returned in UTC, convert to local time zone
                     .atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime()
                     .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
             }
 
-            final Boolean moreMessagesAvailable = messages.getNextPage() != null;
+            final boolean moreMessagesAvailable = messages.getNextPage() != null;
             System.out.println("\nMore messages available? " + moreMessagesAvailable);
         } catch (Exception e) {
             System.out.println("Error getting inbox");
